@@ -1,7 +1,9 @@
 %% Export bpod data as .JSON
-animal_path = "/Users/fgs/HMLworkplace/Bpod_data/ZZ0024-L";
-animal_path = '/Volumes/Hiroshi Makino/User/KinOn/Data/diversity_training/bpod/ZZ0024';
-output_path = "/Users/fgs/HMLworkplace/Arena_analysis/Data/bpod_data";
+animal_path = '/Volumes/Hiroshi Makino/User/KinOn/Data/diversity_training/bpod/HL0023-LR';
+output_path = "/Users/fgs/HMLworkplace/Arena_analysis/Data/bpod_data/HL0023-LR";
+if ~exist(output_path, 'dir')
+    mkdir(output_path);
+end
 sess_list = dir(animal_path);
 sess_list = sess_list(~ismember({sess_list.name}, {'.', '..','.DS_Store'}));
 for j = 1:length(sess_list)

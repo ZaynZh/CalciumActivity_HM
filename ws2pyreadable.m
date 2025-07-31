@@ -21,9 +21,27 @@ for i = 1:length(dlist)
     bpod_signal_seq = signal_series(:,2);
     
     ms_signal_clean = abs(diff(ms_signal_seq));
-    ms_signal_clean(ms_signal_clean <= 2) = 0;
-    ms_signal_clean(ms_signal_clean > 2) = 1;
+    test = ms_signal_clean;
+    ms_signal_clean(ms_signal_clean <= 1.65) = 0;
+    ms_signal_clean(ms_signal_clean > 1.65) = 1;
     
+
+    x = ms_signal_clean;                               % 0 / 1 vector
+    idx = find(x);                              % indices of all 1s
+    keep = true(size(idx));                     % logical mask
+
+    last = -inf;
+    for n = 1:numel(idx)
+        if idx(n) - last <= 100                 % within 100 → discard
+            keep(n) = false;
+        else
+            last = idx(n);                      % mark most recent kept 1
+        end
+    end
+
+    x(idx(~keep)) = 0;
+    ms_signal_clean = x;
+
     ms_frames_samplingstamps = find(ms_signal_clean==1);
     frames_ITI = diff(ms_frames_samplingstamps);
     
